@@ -94,18 +94,6 @@ ctest --test-dir build --output-on-failure
 Python robustness tests are available in `tests/` and are run by the GitHub
 Actions workflow.
 
-## Project layout
-
-```text
-src/
-├─ auth/       password hashing and authentication boundary
-├─ config/     configuration loading
-├─ database/   SQLite repositories and worker thread
-├─ logging/    file logger
-├─ models/     data structures
-└─ server/     WebSocket connections, rooms, protocol, presence, rate limiting
-```
-
 ## Security notes
 
 - Passwords are hashed with Argon2id.
