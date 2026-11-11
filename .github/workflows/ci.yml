@@ -1,0 +1,114 @@
+﻿name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-unit:
+    name: Build + unit tests (Linux)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Qt and dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            cmake ninja-build libsodium-dev \
+            qt6-base-dev qt6-base-dev-tools libqt6websockets6-dev
+
+      - name: Configure
+        run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build
+
+      - name: Unit tests
+        run: ctest --test-dir build --output-on-failure
+
+  sanitizers:
+    name: ASan + UBSan
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Qt and dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            cmake ninja-build libsodium-dev \
+            qt6-base-dev qt6-base-dev-tools libqt6websockets6-dev
+
+      - name: Configure with sanitizers
+        run: >
+          cmake -S . -B build-asan -G Ninja
+          -DCMAKE_BUILD_TYPE=Debug
+          -DCMAKE_CXX_FLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer"
+          -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=address,undefined"
+
+      - name: Build
+        run: cmake --build build-asan
+
+      - name: Run unit tests under sanitizers
+        env:
+          ASAN_OPTIONS: detect_leaks=0:halt_on_error=1
+          UBSAN_OPTIONS: halt_on_error=1
+        run: ctest --test-dir build-asan --output-on-failure
+
+  robust-suite:
+    name: Robust WebSocket suite
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            cmake ninja-build libsodium-dev curl \
+            qt6-base-dev qt6-base-dev-tools libqt6websockets6-dev \
+            python3 python3-pip
+          python3 -m pip install --break-system-packages websockets aiohttp
+
+      - name: Generate development certificate
+        run: |
+          mkdir -p certs
+          openssl req -x509 -newkey rsa:2048 -nodes \
+            -keyout certs/server.key \
+            -out certs/server.crt \
+            -days 1 \
+            -subj "/CN=localhost"
+          chmod 600 certs/server.key
+
+      - name: Configure and build
+        run: |
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+          cmake --build build
+
+      - name: Start server
+        run: |
+          (cd build && nohup ./chat-server > /tmp/chat-server.log 2>&1 &)
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8081/health; then exit 0; fi
+            sleep 1
+          done
+          echo "server failed to start"
+          cat /tmp/chat-server.log
+          exit 1
+
+      - name: Run robust suite
+        env:
+          CHAT_SERVER_URI: wss://localhost:8080
+          CHAT_SERVER_TLS: "1"
+          CHAT_REQUIRE_TLS: "1"
+          CHAT_REQUIRE_RATE_LIMIT: "1"
+          CHAT_REQUIRE_PERSISTENCE: "1"
+          CHAT_SERVER_HEALTH: http://127.0.0.1:8081/health
+          CHAT_SERVER_METRICS: http://127.0.0.1:8081/metrics
+          CHAT_SERVER_RESTART_CMD: "pkill -x chat-server || true; sleep 1; (cd build && nohup ./chat-server > /tmp/chat-server-restarted.log 2>&1 &)"
+        run: python3 tests/test_server_robust.py
+
+      - name: Stop server
+        if: always()
+        run: pkill -x chat-server || true

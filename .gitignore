@@ -1,0 +1,10 @@
+﻿build/
+build-*/
+out/
+certs/*.key
+certs/*.crt
+*.db
+*.log
+__pycache__/
+.qtcreator/
+CMakeLists.txt.user
