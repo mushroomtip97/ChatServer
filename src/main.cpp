@@ -12,6 +12,8 @@
 #include <sodium.h>
 
 
+
+
 #ifdef Q_OS_WIN
 #include <windows.h>
 
@@ -70,7 +72,7 @@ int main(int argc, char *argv[])
         return 1;
     }
     qInfo() << "libsodium" << sodium_version_string() << "ready for use";
-  
+
     ChatServer server(config);
     if (!server.start())
     {
@@ -84,3 +86,4 @@ int main(int argc, char *argv[])
     FileLogger::instance().uninstall();
     return rc;
 }
+
