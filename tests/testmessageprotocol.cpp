@@ -169,7 +169,6 @@ void TestMessageProtocol::roomJoined_roundTrip()
     const auto msg = MessageProtocol::createRoomJoinedMessage(9, "general");
     QCOMPARE(MessageProtocol::getMessageType(msg), MessageProtocol::MessageType::RoomJoined);
     QCOMPARE(MessageProtocol::getRoomId(msg), 9);
-    // Note: roomName has no parser — check the raw JSON
     QCOMPARE(msg["data"].toObject()["roomName"].toString(), QString("general"));
 }
 
@@ -237,8 +236,6 @@ void TestMessageProtocol::presenceSubscribe_hasDataField()
 {
     const auto msg = MessageProtocol::createPresenceSubscribeMessage();
     QCOMPARE(MessageProtocol::getMessageType(msg), MessageProtocol::MessageType::PresenceSubscribe);
-
-    // The bug we just fixed: every message must have a "data" object
     QVERIFY2(msg.contains("data"), "presence_subscribe missing 'data' key");
     QVERIFY(msg["data"].isObject());
     QVERIFY(MessageProtocol::isValidMessage(msg));
@@ -323,9 +320,6 @@ void TestMessageProtocol::editMessage_roundTrip()
     const auto msg = MessageProtocol::createEditMessageMessage(123, "new content");
 
     QCOMPARE(MessageProtocol::getMessageType(msg), MessageProtocol::MessageType::EditMessage);
-
-    // The bug we just fixed: creator wrote "messageId", parser read "editMessageId".
-    // After the fix, both should agree — whichever key you picked.
     QCOMPARE(MessageProtocol::getEditMessageId(msg), 123);
     QCOMPARE(MessageProtocol::getContent(msg), QString("new content"));
 }
@@ -366,7 +360,6 @@ void TestMessageProtocol::messageDeleted_roundTrip()
 void TestMessageProtocol::everyCreator_producesValidMessage()
 {
     // Every create* function must produce something isValidMessage accepts.
-    // This catches the "missing data key" class of bug.
 
     const QDateTime now = QDateTime::currentDateTimeUtc();
     const QJsonArray emptyArr;
@@ -450,9 +443,7 @@ void TestMessageProtocol::typeMapping_isSymmetric()
     // messageTypeToString is private. Use getMessageType on a synthetic
     // object instead — round-trip through the public API.
     for (auto t : types) {
-        // Build {"type": "<string>"} by calling a creator for each type is
-        // tedious. Instead, use the fact that every type has a known string
-        // via the enum name. Skip this and rely on the per-type tests.
+ 
         Q_UNUSED(t);
     }
 }
