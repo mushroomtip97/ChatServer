@@ -6,7 +6,7 @@
 
 // Thread-safe password hashing / verification helpers.
 //
-// Argon2id hashing and verification are CPU- and memory-heavy. They must be
+// Argon2id hashing and verification must be
 // called from worker threads (QtConcurrent::run with PasswordHasher::pool()),
 // never from the Qt main/event-loop thread.
 class PasswordHasher
