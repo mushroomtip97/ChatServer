@@ -24,7 +24,7 @@ bool RateLimiter::isAuthBlocked(const QString &username, const QString &ip)
     const auto &byUser = m_authByUser[username];
     const auto &byIp = m_authByIp[ip];
 
-    // Const iteration: prune lazily in recordAuthFailure(). The lists are
+    // Const iteration: prune pretty lazily in recordAuthFailure(). The lists are
     // append-only here, so counting the tail is sufficient and avoids
     // non-const mutation in a predicate.
     const auto countNewer = [cutoff](const QList<qint64> &list) {
