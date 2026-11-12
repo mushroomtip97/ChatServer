@@ -15,7 +15,6 @@ namespace
         FileLogger::instance().write(type, ctx, msg);
 
         // Chains to whatever handler was installed before us, so the console
-        // (Qt Creator's Application Output) still shows the same lines.
         if (s_previousHandler)
         {
             s_previousHandler(type, ctx, msg);
