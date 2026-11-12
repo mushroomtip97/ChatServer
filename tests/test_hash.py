@@ -121,7 +121,6 @@ async def t2_new_users_use_argon2():
 
 
 async def t3_legacy_hash_migrates_on_login():
-    """A user with a legacy SHA-256 hash should be upgraded on successful login."""
     # Find a user whose hash is still legacy SHA-256 (64 hex chars, no $argon2)
     rows = db_query("""
         SELECT username FROM users
@@ -137,8 +136,8 @@ async def t3_legacy_hash_migrates_on_login():
     username = rows[0][0]
     before = get_hash(username)
 
-    # We need the correct password to log in and trigger migration.
-    # `demo` is the only user we know the password for (demo123).
+    # Needs the correct password to log in and trigger migration.
+    # `demo` is the only user the password is known for (demo123).
     if username != "demo":
         print(f"    ⚠ legacy user is '{username}' — password unknown, skipping")
         print("      (only 'demo' has a known password)")
