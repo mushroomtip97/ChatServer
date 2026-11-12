@@ -395,10 +395,10 @@ void TestMessageProtocol::everyCreator_producesValidMessage()
         MessageProtocol::createMessageDeletedMessage(1),
     };
 
-    for (const auto &msg : messages) {
+    for (const auto &msg : messages) 
+    {
         const QString type = msg["type"].toString();
-        QVERIFY2(MessageProtocol::isValidMessage(msg),
-                 qPrintable(QString("isValidMessage failed for type '%1'").arg(type)));
+        QVERIFY2(MessageProtocol::isValidMessage(msg), qPrintable(QString("isValidMessage failed for type '%1'").arg(type)));
     }
 }
 
@@ -440,10 +440,10 @@ void TestMessageProtocol::typeMapping_isSymmetric()
         MessageProtocol::MessageType::MessageDeleted,
     };
 
-    // messageTypeToString is private. Use getMessageType on a synthetic
+    // Since messageTypeToString is private. Use getMessageType on a synthetic
     // object instead — round-trip through the public API.
-    for (auto t : types) {
- 
+    for (auto t : types) 
+    {
         Q_UNUSED(t);
     }
 }
