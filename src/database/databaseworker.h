@@ -13,7 +13,7 @@
 #include "IMessageRepository.h"
 #include "IPrivateMessageRepository.h"
 
-class QChronoTimer;
+class QTimer;
 
 // Thread-affine SQLite worker.
 //
@@ -61,7 +61,7 @@ private:
     QVariantMap execute(Operation operation, const QVariantMap &params);
 
     DatabaseManager m_dbManager;
-    QChronoTimer *m_healthTimer = nullptr;
+    QTimer *m_healthTimer = nullptr;
     std::unique_ptr<IAuthenticator> m_auth;
     std::unique_ptr<IMessageRepository> m_messages;
     std::unique_ptr<IPrivateMessageRepository> m_privateMessages;
@@ -69,3 +69,4 @@ private:
 };
 
 #endif // DATABASEWORKER_H
+

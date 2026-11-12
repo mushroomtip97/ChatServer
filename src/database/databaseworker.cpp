@@ -12,7 +12,7 @@
 #include <QDebug>
 #include <QSqlError>
 #include <QSqlQuery>
-#include <QChronoTimer>
+#include <QTimer>
 #include <chrono>
 #include <QVariantList>
 
@@ -90,10 +90,10 @@ bool DatabaseWorker::initialize(const QString &dbPath, bool seedDemoUser)
     m_messages = std::make_unique<MessageRepository>(m_dbManager.database());
     m_privateMessages = std::make_unique<PrivateMessageRepository>(m_dbManager.database());
 
-    m_healthTimer = new QChronoTimer(this);
-    m_healthTimer->setInterval(std::chrono::seconds(15));
+    m_healthTimer = new QTimer(this);
+    m_healthTimer->setInterval(15 * 1000); // 15 seconds
     m_healthTimer->setTimerType(Qt::CoarseTimer);
-    connect(m_healthTimer, &QChronoTimer::timeout, this, [this]()
+    connect(m_healthTimer, &QTimer::timeout, this, [this]()
     {
         if (!m_dbManager.database().isOpen())
         {
@@ -573,3 +573,4 @@ QVariantMap DatabaseWorker::execute(DatabaseWorker::Operation operation, const Q
     result["error"] = "Unknown database operation";
     return result;
 }
+
