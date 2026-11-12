@@ -1,7 +1,7 @@
-#include "AuthManager.h"
+﻿#include "authmanager.h"
 
 #include "PasswordHasher.h"
-#include "TransactionGuard.h"
+#include "transactionguard.h"
 
 #include <QSqlQuery>
 #include <QSqlError>
@@ -223,3 +223,4 @@ bool AuthManager::updatePasswordHash(int userId, const QString &newHash)
     qInfo() << "Upgraded password hash to Argon2id for user: " << userId;
     return true;
 }
+

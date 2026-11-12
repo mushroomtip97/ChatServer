@@ -1,4 +1,4 @@
-#include "DatabaseManager.h"
+﻿#include "databasemanager.h"
 #include <QSql>
 #include <QSqlError>
 #include <QSqlQuery>
@@ -409,3 +409,4 @@ bool DatabaseManager::migrateSchema()
     }
     return true;
 }
+

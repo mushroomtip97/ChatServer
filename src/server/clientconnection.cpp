@@ -1,10 +1,10 @@
-﻿#include "ClientConnection.h"
-#include "MessageProtocol.h"
-#include "DatabaseWorker.h"
-#include "RoomManager.h"
-#include "AuthManager.h"
+﻿#include "clientconnection.h"
+#include "messageprotocol.h"
+#include "databaseworker.h"
+#include "roommanager.h"
+#include "authmanager.h"
 #include "PasswordHasher.h"
-#include "RateLimiter.h"
+#include "ratelimiter.h"
 
 #include <QWebSocket>
 #include <chrono>
@@ -957,3 +957,4 @@ void ClientConnection::handleDeleteMessage(const QJsonObject &message)
     }
     emit deleteMessageRequested(this, id);
 }
+

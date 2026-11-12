@@ -1,14 +1,14 @@
 ﻿
-#include "DatabaseManager.h"
-#include "MessageProtocol.h"
-#include "PresenceManager.h"
-#include "ClientConnection.h"
+#include "databasemanager.h"
+#include "messageprotocol.h"
+#include "presencemanager.h"
+#include "clientconnection.h"
 
 #include <QCoreApplication>
 #include <QDir>
-#include "config/ServerConfig.h"
-#include "ChatServer.h"
-#include "logging/FileLogger.h"
+#include "config/serverconfig.h"
+#include "chatserver.h"
+#include "logging/filelogger.h"
 #include <sodium.h>
 
 
@@ -86,4 +86,5 @@ int main(int argc, char *argv[])
     FileLogger::instance().uninstall();
     return rc;
 }
+
 

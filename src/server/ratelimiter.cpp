@@ -1,4 +1,4 @@
-#include "RateLimiter.h"
+﻿#include "ratelimiter.h"
 
 #include <QDateTime>
 
@@ -91,3 +91,4 @@ void RateLimiter::clear()
     m_authByIp.clear();
     m_registrationsByIp.clear();
 }
+

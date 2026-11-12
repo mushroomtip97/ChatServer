@@ -1,12 +1,12 @@
-#include "DatabaseWorker.h"
+﻿#include "databaseworker.h"
 
-#include "AuthManager.h"
+#include "authmanager.h"
 #include "IAuthenticator.h"
-#include "MessageRepository.h"
-#include "PrivateMessageRepository.h"
+#include "messagerepository.h"
+#include "privatemessagerepository.h"
 #include "IMessageRepository.h"
 #include "IPrivateMessageRepository.h"
-#include "TransactionGuard.h"
+#include "transactionguard.h"
 
 #include <QDateTime>
 #include <QDebug>

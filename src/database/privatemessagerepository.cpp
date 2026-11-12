@@ -1,4 +1,4 @@
-﻿#include "PrivateMessageRepository.h"
+﻿#include "privatemessagerepository.h"
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QVariant>
@@ -219,3 +219,4 @@ QList<IPrivateMessageRepository::UnreadSummary> PrivateMessageRepository::getUnr
     }
     return out;
 }
+

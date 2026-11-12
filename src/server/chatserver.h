@@ -1,8 +1,8 @@
-#ifndef CHATSERVER_H
+﻿#ifndef CHATSERVER_H
 #define CHATSERVER_H
 
-#include "AuthManager.h"
-#include "PresenceManager.h"
+#include "authmanager.h"
+#include "presencemanager.h"
 
 #include <QObject>
 #include <QMap>
@@ -10,7 +10,7 @@
 #include <QPointer>
 #include <QVariantMap>
 #include <memory>
-#include "config/ServerConfig.h"
+#include "config/serverconfig.h"
 
 class QWebSocketServer;
 class QWebSocket;

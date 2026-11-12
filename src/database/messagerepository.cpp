@@ -1,4 +1,4 @@
-﻿#include "MessageRepository.h"
+﻿#include "messagerepository.h"
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QDebug>
@@ -137,3 +137,4 @@ IMessageRepository::MessageOwnership MessageRepository::lookupMessage(int messag
     result.deleted = query.value(2).toBool();
     return result;
 }
+

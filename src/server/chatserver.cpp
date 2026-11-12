@@ -1,9 +1,9 @@
-#include "ChatServer.h"
-#include "ClientConnection.h"
-#include "RoomManager.h"
-#include "DatabaseWorker.h"
-#include "MessageProtocol.h"
-#include "RateLimiter.h"
+﻿#include "chatserver.h"
+#include "clientconnection.h"
+#include "roommanager.h"
+#include "databaseworker.h"
+#include "messageprotocol.h"
+#include "ratelimiter.h"
 #include "healthserver.h"
 
 #include <QWebSocketServer>
@@ -239,7 +239,7 @@ bool ChatServer::start()
         m_healthServer = std::make_unique<HealthServer>(m_config.healthPort(), this);
         if (!m_healthServer->start())
         {
-            qWarning() << "Health server failed to start â€” continuing without it";
+            qWarning() << "Health server failed to start Ã¢â‚¬â€ continuing without it";
             m_healthServer.reset();
         }
     }
@@ -890,3 +890,4 @@ void ChatServer::onDbRequestFinished(quint64 requestId, int operation, const QVa
         return;
     }
 }
+

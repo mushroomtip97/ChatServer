@@ -1,4 +1,4 @@
-#ifndef DATABASEWORKER_H
+﻿#ifndef DATABASEWORKER_H
 #define DATABASEWORKER_H
 
 #include <QObject>
@@ -8,7 +8,7 @@
 #include <atomic>
 #include <memory>
 
-#include "DatabaseManager.h"
+#include "databasemanager.h"
 #include "IAuthenticator.h"
 #include "IMessageRepository.h"
 #include "IPrivateMessageRepository.h"

@@ -1,10 +1,10 @@
-#include <QtTest/QtTest>
+﻿#include <QtTest/QtTest>
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QDateTime>
 #include <QStringList>
 
-#include "MessageProtocol.h"
+#include "messageprotocol.h"
 
 class TestMessageProtocol : public QObject
 {
@@ -405,7 +405,7 @@ void TestMessageProtocol::everyCreator_producesValidMessage()
 void TestMessageProtocol::typeMapping_isSymmetric()
 {
     // Every MessageType except Unknown must round-trip through
-    // messageTypeToString → stringToMessageType. This catches typos
+    // messageTypeToString â†’ stringToMessageType. This catches typos
     // in the string constants.
 
     const QList<MessageProtocol::MessageType> types = {
@@ -441,7 +441,7 @@ void TestMessageProtocol::typeMapping_isSymmetric()
     };
 
     // Since messageTypeToString is private. Use getMessageType on a synthetic
-    // object instead — round-trip through the public API.
+    // object instead â€” round-trip through the public API.
     for (auto t : types) 
     {
         Q_UNUSED(t);
@@ -450,3 +450,4 @@ void TestMessageProtocol::typeMapping_isSymmetric()
 
 QTEST_MAIN(TestMessageProtocol)
 #include "testmessageprotocol.moc"
+

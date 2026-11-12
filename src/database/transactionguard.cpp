@@ -1,4 +1,4 @@
-#include "TransactionGuard.h"
+﻿#include "transactionguard.h"
 
 bool TransactionGuard::active() const
 {
@@ -31,4 +31,5 @@ bool TransactionGuard::commit()
 
     return m_committed;
 }
+
 

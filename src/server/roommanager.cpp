@@ -1,5 +1,5 @@
-﻿#include "RoomManager.h"
-#include "ClientConnection.h"
+﻿#include "roommanager.h"
+#include "clientconnection.h"
 #include <QDebug>
 
 RoomManager::RoomManager(QObject *parent)
@@ -123,3 +123,4 @@ QStringList RoomManager::getRoomsForClient(ClientConnection *client) const
 
     return rooms;
 }
+

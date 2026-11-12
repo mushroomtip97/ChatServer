@@ -1,6 +1,6 @@
-#include "PresenceManager.h"
-#include "ClientConnection.h"
-#include "MessageProtocol.h"
+﻿#include "presencemanager.h"
+#include "clientconnection.h"
+#include "messageprotocol.h"
 
 PresenceManager::PresenceManager(QObject *parent)
     : QObject{parent}
@@ -81,4 +81,5 @@ QStringList PresenceManager::onlineUserIds() const
 {
     return m_userConnections.keys();
 }
+
 
