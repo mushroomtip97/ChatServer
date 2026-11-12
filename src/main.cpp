@@ -46,7 +46,6 @@ int main(int argc, char *argv[])
     }
 #endif
 
-    // Load the configuration first: the logger needs the configured log path.
     const QString confPath = QCoreApplication::applicationDirPath() + "/config/server.conf";
     ServerConfig config(confPath);
     if (!config.load())
@@ -55,7 +54,6 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    // Install the file logger now that we know where to write
     FileLogger::instance().install(config.logFilePath(), config.logLevel());
 
     qInfo() << "Chat Server v1.0.0 starting...";
