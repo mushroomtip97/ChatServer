@@ -56,7 +56,7 @@ bool DatabaseManager::initialize(const QString &dbPath, bool seedDemoUser)
 
 
 
-    // Creating tables and indexes
+    // Tables and indexes
     if (!createTables())
     {
         qCritical() << "Failed to create tables";
