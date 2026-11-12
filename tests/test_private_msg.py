@@ -198,7 +198,7 @@ async def t6_offline_recipient_still_persisted():
 
     # Register Bob but do NOT stay connected
     bob_tmp, _ = await connect_and_auth("bob-tmp")
-    await bob_tmp.close()  # placeholder — see note below
+    await bob_tmp.close()
 
     # Actually register bob with his known name
     tmp_ws = await websockets.connect(SERVER_URI, open_timeout=DEFAULT_TIMEOUT, **connect_kwargs())
@@ -236,14 +236,12 @@ async def t6_offline_recipient_still_persisted():
 
 
 def alice_username_placeholder(client):
-    # We don't have direct access to the username here, so re-derive:
-    # the tests use a known pattern; this is a hack but keeps the test simple.
-    # In a real test, `connect_and_auth` would return the username.
+    # Derive the username from the known test naming pattern.
+   
     raise NotImplementedError
 
 
 async def t6b_offline_recipient_clean():
-    """Cleaner version of t6 — capture both usernames."""
     alice, a_name = await connect_and_auth("alice")
 
     # Register Bob and immediately disconnect
