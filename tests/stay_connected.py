@@ -1,4 +1,3 @@
-# save as tests/stay_connected.py
 import asyncio, json, uuid, websockets, ssl
 
 async def main():
