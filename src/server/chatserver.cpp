@@ -157,8 +157,7 @@ bool ChatServer::start()
 
     m_rateLimiter->setLimits(m_config.authFailureLimit(),m_config.authIpFailureLimit(),  m_config.registrationRateLimitPerMinute());
 
-    const QWebSocketServer::SslMode mode =
-        m_config.tlsEnabled() ? QWebSocketServer::SecureMode : QWebSocketServer::NonSecureMode;
+    const QWebSocketServer::SslMode mode = m_config.tlsEnabled() ? QWebSocketServer::SecureMode : QWebSocketServer::NonSecureMode;
 
     m_webSocketServer = new QWebSocketServer(QStringLiteral("chat-server"), mode, this);
 
@@ -194,8 +193,7 @@ bool ChatServer::start()
         }
 
         const QDateTime nowUtc = QDateTime::currentDateTimeUtc();
-        if (nowUtc < certificate.effectiveDate().toUTC()
-            || nowUtc > certificate.expiryDate().toUTC())
+        if (nowUtc < certificate.effectiveDate().toUTC() || nowUtc > certificate.expiryDate().toUTC())
         {
             qCritical() << "TLS certificate is expired or not yet valid:"
                         << m_config.certPath();
@@ -220,9 +218,7 @@ bool ChatServer::start()
 
         m_webSocketServer->setSslConfiguration(sslConfig);
 
-        connect(m_webSocketServer, &QWebSocketServer::sslErrors, this,
-                [](const QList<QSslError> &errors)
-                {
+        connect(m_webSocketServer, &QWebSocketServer::sslErrors, this,[](const QList<QSslError> &errors) {
                     for (const auto &err : errors)
                     {
                         qWarning() << "Server TLS error:" << err.errorString();
@@ -366,8 +362,7 @@ void ChatServer::onNewConnection()
     client->setDatabaseWorker(m_dbWorker);
     client->setRoomManager(m_roomManager.get());
     client->setRateLimiter(m_rateLimiter.get());
-    client->setTimeouts(m_config.authTimeoutSeconds() * 1000,
-                        m_config.idleTimeoutSeconds() * 1000);
+    client->setTimeouts(m_config.authTimeoutSeconds() * 1000, m_config.idleTimeoutSeconds() * 1000);
     client->setMaxOutboundQueueBytes(m_config.maxOutboundQueueBytes());
 
     connect(client, &ClientConnection::disconnected, this, &ChatServer::onClientDisconnected);
@@ -867,8 +862,7 @@ void ChatServer::onDbRequestFinished(quint64 requestId, int operation, const QVa
         }
 
         const int roomId = result.value("roomId").toInt();
-        const QJsonObject broadcast = MessageProtocol::createMessageDeletedMessage(
-            call.context.value("messageId").toInt());
+        const QJsonObject broadcast = MessageProtocol::createMessageDeletedMessage(call.context.value("messageId").toInt());
         m_roomManager->broadcastToRoom(QString::number(roomId), broadcast);
         return;
     }
