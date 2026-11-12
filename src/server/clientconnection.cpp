@@ -31,7 +31,7 @@ ClientConnection::ClientConnection(QWebSocket *socket, QObject *parent)
     connect(m_socket, &QWebSocket::disconnected, this, &ClientConnection::onDisconnected);
     connect(&m_authWatcher, &QFutureWatcher<AuthWorkerResult>::finished, this, &ClientConnection::onAuthTaskFinished);
 
-    m_authTimer.start(std::chrono::milliseconds(m_authTimeoutMs), this);
+    m_authTimer.start(m_authTimeoutMs, this);
 }
 
 ClientConnection::~ClientConnection()
@@ -90,11 +90,11 @@ void ClientConnection::setTimeouts(int authTimeoutMs, int idleTimeoutMs)
 
     if (!m_authenticated)
     {
-        m_authTimer.start(std::chrono::milliseconds(m_authTimeoutMs), this);
+        m_authTimer.start(m_authTimeoutMs, this);
     }
     else
     {
-        m_idleTimer.start(std::chrono::milliseconds(m_idleTimeoutMs), this);
+        m_idleTimer.start(m_idleTimeoutMs, this);
     }
 }
 
@@ -179,11 +179,11 @@ void ClientConnection::onTextMessageReceived(const QString &message)
 {
     if (m_authenticated)
     {
-        m_idleTimer.start(std::chrono::milliseconds(m_idleTimeoutMs), this);
+        m_idleTimer.start(m_idleTimeoutMs, this);
     }
     else
     {
-        m_authTimer.start(std::chrono::milliseconds(m_authTimeoutMs), this);
+        m_authTimer.start(m_authTimeoutMs, this);
     }
 
     QJsonParseError error;
@@ -569,7 +569,7 @@ void ClientConnection::completeAuthentication(int userId, const QString &usernam
     setAuthenticated(userId, username);
 
     m_authTimer.stop();
-    m_idleTimer.start(std::chrono::milliseconds(m_idleTimeoutMs), this);
+    m_idleTimer.start(m_idleTimeoutMs, this);
 
     m_authInFlight = true;
     submitDbRequest(static_cast<int>(DatabaseWorker::Operation::GetUserRooms),
@@ -957,4 +957,5 @@ void ClientConnection::handleDeleteMessage(const QJsonObject &message)
     }
     emit deleteMessageRequested(this, id);
 }
+
 
