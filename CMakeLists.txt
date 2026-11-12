@@ -35,7 +35,7 @@ find_path(SODIUM_INCLUDE_DIR
 )
 
 find_library(SODIUM_LIBRARY
-    NAMES libsodium.a
+    NAMES sodium libsodium libsodium.a libsodium.so
     HINTS ${SODIUM_ROOT}/lib
     REQUIRED
 )
@@ -58,7 +58,7 @@ set(SOURCES
     src/database/privatemessagerepository.cpp
     src/database/transactionguard.cpp
     src/auth/authmanager.cpp
-    src/auth/passwordhasher.cpp
+    src/auth/PasswordHasher.cpp
     src/config/serverconfig.cpp
     src/logging/filelogger.cpp
     src/compat/memset_explicit.c
@@ -83,7 +83,7 @@ set(HEADERS
     src/auth/AuthResult.h
     src/auth/IAuthenticator.h
     src/auth/authmanager.h
-    src/auth/passwordhasher.h
+    src/auth/PasswordHasher.h
     src/models/User.h
     src/models/Message.h
     src/models/PrivateMessage.h
@@ -149,7 +149,7 @@ add_test(NAME message_protocol COMMAND test-message-protocol)
 
 add_executable(test-password-hasher
     tests/test_passwordhasher.cpp
-    src/auth/passwordhasher.cpp
+    src/auth/PasswordHasher.cpp
     src/compat/memset_explicit.c
 )
 
@@ -166,6 +166,7 @@ target_link_libraries(test-password-hasher
 )
 
 add_test(NAME password_hasher COMMAND test-password-hasher)
+
 
 
 
