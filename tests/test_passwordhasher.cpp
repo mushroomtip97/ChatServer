@@ -69,10 +69,7 @@ void TestPasswordHasher::verifyMalformedStoredHashFails()
 void TestPasswordHasher::verifyLegacySha256StillWorks()
 {
     const QString password = "legacy-password";
-    const QString stored =
-        QString::fromLatin1(
-            QCryptographicHash::hash(password.toUtf8(),
-                                     QCryptographicHash::Sha256).toHex());
+    const QString stored = QString::fromLatin1(QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha256).toHex());
 
     QVERIFY(PasswordHasher::verifyLegacySha256(password, stored));
     QVERIFY(!PasswordHasher::verifyLegacySha256("wrong-password", stored));
