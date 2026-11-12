@@ -66,15 +66,13 @@ int main(int argc, char *argv[])
             << "health=" << config.healthEnabled()
             << "healthPort=" << config.healthPort();
 
-    // Initialize libsodium before any cryptographic API is used.
     if (sodium_init() < 0)
     {
         qCritical() << "libsodium failed";
         return 1;
     }
     qInfo() << "libsodium" << sodium_version_string() << "ready for use";
-
-    // Server
+  
     ChatServer server(config);
     if (!server.start())
     {
